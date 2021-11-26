@@ -1,5 +1,5 @@
 {
-    "name": "Luizgustavo358/ecommerce",
+    "name": "luizgustavo358/ecommerce",
     "authors": [
         {
             "name": "Luiz Gustavo Bragança dos Santos",
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "": "vendor\\hcodebr\\php-classes\\src"
+            "Hcode\\": "vendor\\hcodebr\\php-classes\\src"
         }
     }
 }
