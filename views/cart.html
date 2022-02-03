@@ -95,7 +95,15 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td><span class="amount">R$ {function="formatPrice($cart.vlsubtotal)"}</span></td>
+                                                <td>
+                                                    <span class="amount">
+                                                        {if="$cart.vlsubtotal != ''"}
+                                                            R$ {function="formatPrice($cart.vlsubtotal)"}
+                                                        {else}
+                                                            R$ 0,00
+                                                        {/if}
+                                                    </span>
+                                                </td>
                                             </tr>
 
                                             <tr class="shipping">
@@ -105,7 +113,17 @@
 
                                             <tr class="order-total">
                                                 <th>Total</th>
-                                                <td><strong><span class="amount">R$ {function="formatPrice($cart.vltotal)"}</span></strong> </td>
+                                                <td>
+                                                    <strong>
+                                                        <span class="amount">
+                                                            {if="$cart.vlsubtotal != ''"}
+                                                                R$ {function="formatPrice($cart.vltotal)"}
+                                                            {else}
+                                                                R$ 0,00
+                                                            {/if}                                                            
+                                                        </span>
+                                                    </strong>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -87,7 +87,7 @@
                                     <div class="coupon">
                                         <label for="cep">CEP:</label>
                                         <input type="text" placeholder="00000-000" value="<?php echo htmlspecialchars( $cart["deszipcode"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" id="cep" class="input-text" name="zipcode">
-                                        <input type="submit" formmethod="post" formaction="/cart/freight" value="CÁLCULAR" class="button">
+                                        <input type="submit" formmethod="post" formaction="/cart/freight" value="CALCULAR" class="button">
                                     </div>
 
                                 </div>
@@ -100,7 +100,19 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td><span class="amount">R$ <?php echo formatPrice($cart["vlsubtotal"]); ?></span></td>
+                                                <td>
+                                                    <span class="amount">
+                                                        <?php if( $cart["vlsubtotal"] != '' ){ ?>
+
+                                                            R$ <?php echo formatPrice($cart["vlsubtotal"]); ?>
+
+                                                        <?php }else{ ?>
+
+                                                            R$ 0,00
+                                                        <?php } ?>
+
+                                                    </span>
+                                                </td>
                                             </tr>
 
                                             <tr class="shipping">
@@ -110,7 +122,20 @@
 
                                             <tr class="order-total">
                                                 <th>Total</th>
-                                                <td><strong><span class="amount">R$ <?php echo formatPrice($cart["vltotal"]); ?></span></strong> </td>
+                                                <td>
+                                                    <strong>
+                                                        <span class="amount">
+                                                            <?php if( $cart["vlsubtotal"] != '' ){ ?>
+
+                                                                R$ <?php echo formatPrice($cart["vltotal"]); ?>
+
+                                                            <?php }else{ ?>
+
+                                                                R$ 0,00
+                                                            <?php } ?>                                                            
+                                                        </span>
+                                                    </strong>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
