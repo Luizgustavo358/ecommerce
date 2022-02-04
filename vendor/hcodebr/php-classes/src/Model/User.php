@@ -173,7 +173,7 @@ class User extends Model {
 
 				$code = base64_encode($code);
 
-                if($inadmin === true) {
+                if($inadmin) {
                     $link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
                 } else {
                     $link = "http://www.hcodecommerce.com.br/forgot/reset?code=$code";
