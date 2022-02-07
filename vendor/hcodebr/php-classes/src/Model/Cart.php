@@ -189,7 +189,7 @@ class Cart extends Model {
             $result = $xml->Servicos->cServico;
             
             if($result->MsgErro != "") {
-                Cart::setMsgErro($result->MsgErro);
+                Cart::setMsgError($result->MsgErro);
             } else {
                 Cart::clearMsgError();
             }
@@ -211,7 +211,7 @@ class Cart extends Model {
         return str_replace(',', '.', $value);
     }
 
-    public static function setMsgErro($msg) {
+    public static function setMsgError($msg) {
         $_SESSION[Cart::SESSION_ERROR] = $msg;
     }
 
