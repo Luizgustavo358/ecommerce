@@ -113,29 +113,26 @@ class Cart extends Model {
     public function getProducts() {
         $sql = new Sql();
 
-        $rows = $sql->select("
-            SELECT b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight,
-                   b.vllength, b.vlweight, b.desurl, COUNT(*) AS nrqtd,
-                   SUM(b.vlprice) as vltotal
-                FROM tb_cartsproducts a 
-                    INNER JOIN tb_products b USING (idproduct) 
-                WHERE idcart = :idcart AND dtremoved IS NULL
-                GROUP BY b.idproduct, b.desproduct, b.vlprice, b.vlwidth,
-                         b.vlheight, b.vllength, b.vlweight, b.desurl
-            ORDER BY b.desproduct
-        ", [
-            ":idcart" => $this->getidcart()
-        ]);
+		$rows = $sql->select("
+			SELECT b.idproduct, b.desproduct , b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl, COUNT(*) AS nrqtd, SUM(b.vlprice) AS vltotal 
+			    FROM tb_cartsproducts a 
+			        INNER JOIN tb_products b ON a.idproduct = b.idproduct 
+			    WHERE a.idcart = :idcart AND a.dtremoved IS NULL 
+			    GROUP BY b.idproduct, b.desproduct , b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl 
+			ORDER BY b.desproduct
+		", [
+			':idcart'=>$this->getidcart()
+		]);
 
-        return Product::checkList($rows);
+		return Product::checkList($rows);
     }
 
     public function getProductsTotals() {
         $sql = new Sql();
 
         $results = $sql->select("
-            SELECT SUM(vlprice) AS VLPRICE, SUM(VLWIDTH) AS VLWIDTH, SUM(VLHEIGHT) AS VLHEIGHT, 
-                   SUM(VLLENGTH) AS VLLENGTH, SUM(VLWEIGHT) AS VLWEIGHT, COUNT(*) AS NRQTD
+            SELECT SUM(vlprice) AS vlprice, SUM(vlwidth) AS vlwidth, SUM(vlheight) AS vlheight, 
+                   SUM(vllength) AS vllength, SUM(vlweight) AS vlweight, COUNT(*) AS nrqtd
             FROM tb_products a
                 INNER JOIN tb_cartsproducts b
                     ON a.idproduct = b.idproduct
@@ -157,14 +154,14 @@ class Cart extends Model {
 
         $totals = $this->getProductsTotals();
 
-        if($totals['NRQTD'] > 0) {
+        if($totals['nrqtd'] > 0) {
 
-            if($totals['VLHEIGHT'] < 2) {
-                $totals['VLHEIGHT'] = 2;
+            if($totals['vlheight'] < 2) {
+                $totals['vlheight'] = 2;
             }
 
-            if($totals['VLLENGTH'] < 16) {
-                $totals['VLLENGTH'] = 16;
+            if($totals['vllength'] < 16) {
+                $totals['vllength'] = 16;
             }
 
             $qs = http_build_query([
@@ -173,14 +170,14 @@ class Cart extends Model {
                 "nCdServico"          => "40010",
                 "sCepOrigem"          => "30770362",
                 "sCepDestino"         => $nrzipcode,
-                "nVlPeso"             => $totals['VLWEIGHT'],
+                "nVlPeso"             => $totals['vlweight'],
                 "nCdFormato"          => '1',
-                "nVlComprimento"      => $totals['VLLENGTH'],
-                "nVlAltura"           => $totals['VLHEIGHT'],
-                "nVlLargura"          => $totals['VLWIDTH'],
+                "nVlComprimento"      => $totals['vllength'],
+                "nVlAltura"           => $totals['vlheight'],
+                "nVlLargura"          => $totals['vlwidth'],
                 "nVlDiametro"         => "0",
                 "sCdMaoPropria"       => "S",
-                "nVlValorDeclarado"   => $totals['VLPRICE'],
+                "nVlValorDeclarado"   => $totals['vlprice'],
                 "sCdAvisoRecebimento" => "S"
             ]);
 
@@ -244,8 +241,8 @@ class Cart extends Model {
 
         $totals = $this->getProductsTotals();
 
-        $this->setvlsubtotal($totals['VLPRICE']);
-        $this->setvltotal($totals['VLPRICE'] + $this->getvlfreight());
+        $this->setvlsubtotal($totals['vlprice']);
+        $this->setvltotal($totals['vlprice'] + $this->getvlfreight());
     }
 }
 
