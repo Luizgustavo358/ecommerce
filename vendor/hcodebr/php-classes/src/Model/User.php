@@ -240,7 +240,7 @@ class User extends Model {
 
         $sql->query("UPDATE tb_users SET despassword = :password WHERE iduser = :iduser", array(
             ":password" => $password,
-            ":iduser" => $this->getiduser()
+            ":iduser"   => $this->getiduser()
         ));
     }
 
@@ -267,6 +267,8 @@ class User extends Model {
         $msg = (isset($_SESSION[User::SUCCESS]) && $_SESSION[User::SUCCESS]) ? $_SESSION[User::SUCCESS] : "";
 
         User::clearSuccess();
+
+        return $msg;
     }
 
     public static function clearSuccess() {

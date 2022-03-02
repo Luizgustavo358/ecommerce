@@ -108,6 +108,7 @@ class Order extends Model {
         $msg = (isset($_SESSION[Order::SUCCESS]) && $_SESSION[Order::SUCCESS]) ? $_SESSION[Order::SUCCESS] : '';
 
         Order::clearSuccess();
+        return $msg;
     }
 
     public static function clearSuccess() {
